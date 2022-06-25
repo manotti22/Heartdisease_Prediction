@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Single Regression</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/single.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body style="background: #03080a">
+<div class="container">
+    <h2>MaxHR Regression  </h2>
+     <form method="POST" accept-charset="utf-8">
+        <div class="row100">
+            <div class="col">
+                <div class="inputBox">
+                    <input type="number" name="Age" id="Age" required="required"  step="0.01">
+                    <span class="text">Age Range-[0 to 99]</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+             <div class="col">
+                <div class="inputBox">
+                    <input type="number" name="Sex" id ="Sex" required="required" step="0.01">
+                    <span class="text">Sex Input[0 | 1 ]</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+        </div>
+         <div class="row100">
+            <div class="col">
+                <div class="inputBox">
+                    <input type="number" name="RestingBP" required="required" step="0.01">
+                    <span class="text">RestingBP Range-[0 to 900]</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+             <div class="col">
+                <div class="inputBox">
+                    <input type="number" name="Cholesterol" required="required" step="0.01">
+                    <span class="text">Cholesterol Range-[0 to 900]</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+        </div>
+          <div class="row100">
+            <div class="col">
+                <div class="inputBox">
+                    <input type="number" name="FastingBS" required="required" step="0.01">
+                    <span class="text">FastingBS Range-[0 to 3]</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+             <div class="col">
+                <div class="inputBox">
+                    <input type="number" name="RestingECG" required="required" step="0.01">
+                    <span class="text">RestingECG Range-[0 to 2]</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+        </div>
+           <div class="row100">
+            <div class="col">
+                <div class="inputBox">
+                    <input type="number" name="DMC" required="required" step="0.01">
+                    <span class="text">DMC Range-[0.7 to 43]</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+             <div class="col">
+                <div class="inputBox">
+                    <input type="number" name="ExerciseAngina" required="required" step="0.01">
+                    <span class="text">ExerciseAngina Range-[0 to 3]</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+        </div>
+           <div class="row100">
+            <div class="col">
+                <div class="inputBox">
+                    <input type="number" name="Oldpeak" required="required" step="0.01">
+                    <span class="text"> Oldpeak Range-[0 to 8]</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+             <div class="col">
+                <div class="inputBox">
+                    <input type="number" name="ST_Slope" required="required" step="0.01">
+                    <span class="text">ST_Slope Range-[0 to 3]</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+        </div>
+           <div class="Row100">
+            <div class="col">
+                <div class="inputBox">
+                    <input type="number" name="HeartDisease" required="required" step="0.01">
+                    <span class="text">HeartDisease Range-[0 to 1]</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+
+               <div class="row100">
+                <div class="col">
+                    <div class="text-center">
+                        <input type="submit" onclick="send_data()" value="Predict">
+                        <a type="button" class="Back" href="{{url_for('index')}}">Back</a>
+                    </div>
+                </div>
+          </div>
+      <form>
+     <div><h3><span id='prediction' style="color: orange"></span></h3></div>
+ </div>
+
+<script>
+    function form_handler(event) {
+        event.preventDefault();
+    }
+    function send_data(){
+        //supress form default behaviour
+
+        document.querySelector('form').addEventListener('submit', form_handler);
+
+        //send & recieve data to predict
+        var fd = new FormData(document.querySelector('form'));
+        console.log(fd)
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST','/predict',true);
+        document.getElementById('prediction').innerHTML = "Wait! Predicting price..";
+
+        xhr.onreadystatechange = function()
+        {
+            if(xhr.readyState == XMLHttpRequest.DONE)
+            {
+                document.getElementById('prediction').innerHTML = "Predicted Temperature : " + xhr.responseText;
+            }
+        }
+
+        xhr.onload = function(){};
+        xhr.send(fd);
+    }
+</script>
+</body>
+</html>
